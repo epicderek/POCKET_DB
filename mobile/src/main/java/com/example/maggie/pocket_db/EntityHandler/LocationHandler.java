@@ -49,6 +49,9 @@ public class LocationHandler extends SQLiteOpenHelper
      */
     public void appendLocation(Location loc)
     {
+        //If the location already exists in the database.
+        if(getLocation(loc.getLat(),loc.getLng())!=null)
+            return;
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(LAT,loc.getLat());
@@ -77,8 +80,7 @@ public class LocationHandler extends SQLiteOpenHelper
         String[] vals = {String.valueOf(lat),String.valueOf(lon)};
         Cursor cur = db.query(TABLE_NAME,null,where,vals,null,null,"name");
         Object[] que = new Object[8];
-        if(cur.moveToNext())
-        {
+        if(cur.moveToNext()) {
             que[0] = cur.getDouble(0);
             que[1] = cur.getDouble(1);
             que[2] = cur.getString(2);
@@ -87,8 +89,9 @@ public class LocationHandler extends SQLiteOpenHelper
             que[5] = cur.getString(5);
             que[6] = cur.getString(6);
             que[7] = cur.getInt(7);
+            return Location.processLocation(que);
         }
-        return Location.processLocation(que);
+        return null;
     }
 
 
