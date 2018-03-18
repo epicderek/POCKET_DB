@@ -1,4 +1,4 @@
-package com.example.maggie.pocket_db.EntityTable;
+package com.example.maggie.pocket_db.POCKET_DB;
 
 /**
  * Created by Maggie on 3/18/2018.
@@ -9,7 +9,11 @@ public class Profile
     /**
      * The id assigned to this person.
      */
-    private int contact_id;
+    protected int contact_id;
+    /**
+     * Counter of given ids.
+     */
+    private static int id_count;
 
     private String fname;
     private String lname;
@@ -20,11 +24,17 @@ public class Profile
     private String email;
     private Location home;
 
-    public Profile(String fname, String lname, int countact_id, String... mn)
+    /**
+     * Initialize a person with his/her first name and last name requisite.
+     * @param fname First name.
+     * @param lname Last name.
+     * @param mn Optional middle name.
+     */
+    public Profile(String fname, String lname,String... mn)
     {
         this.fname = fname;
         this.lname = lname;
-        this.contact_id = contact_id;
+        this.contact_id = id_count++;
         StringBuilder builder = new StringBuilder();
         name = builder.append(fname).append(lname).append(mn.length==0?"":mn[0]).toString();
     }
@@ -44,7 +54,6 @@ public class Profile
         StringBuilder builder = new StringBuilder();
         name = builder.append(fname).append(lname).append(mname).toString();
     }
-
 
     public void setDial(long cal)
     {
@@ -99,6 +108,11 @@ public class Profile
     public Location getLoc()
     {
         return home;
+    }
+
+    protected long getId()
+    {
+        return contact_id;
     }
 
 

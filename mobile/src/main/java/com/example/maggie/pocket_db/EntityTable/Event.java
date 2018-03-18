@@ -1,4 +1,6 @@
 package com.example.maggie.pocket_db.EntityTable;
+import com.example.maggie.pocket_db.POCKET_DB.Profile;
+
 import java.util.*;
 
 /**
