@@ -7,28 +7,28 @@ import android.content.*;
  * Created by Maggie on 3/18/2018.
  */
 
-public class LocationHandler extends SQLiteOpenHelper
+public class PlaceHandler extends SQLiteOpenHelper
 {
     private static final int DATA_BASE_VERSION = 1;
-    private static final String TAG = "LocationHandler";
-    private static final String DATA_BASE_NAME = "LocationManager";
-    protected static final String TABLE_NAME = "location";
+    private static final String TAG = "PlaceHandler";
+    private static final String DATA_BASE_NAME = "PlaceManager";
+    protected static final String TABLE_NAME = "Place";
 
     private static final String LAT = "lat";
     private static final String LNG = "lng";
     private static final String NAME = "name";
-    private static final String TYPE = "location type";
+    private static final String TYPE = "Place type";
 
     /**
-     * All the relevant information to this location in accord with the categories given by the reverse geocode api of google.
+     * All the relevant information to this Place in accord with the categories given by the reverse geocode api of google.
      */
     private static final String STREET_NUM,ROUTE,NEIGHBORHOOD,LOCALITY,ADMINISTRATIVE2,ADMINISTRATIVE1,COUNTRY,ZIP;
     /**
-     * The formatted address of this location.
+     * The formatted address of this Place.
      */
     private static final String ADDRESS = "address";
     /**
-     * A unique id to each location stored in the database.
+     * A unique id to each Place stored in the database.
      */
     protected static final String LOC_ID = "loc_id";
     /**
@@ -49,7 +49,7 @@ public class LocationHandler extends SQLiteOpenHelper
         COLS = new String[]{LAT,LNG,NAME,TYPE,STREET_NUM,ROUTE,NEIGHBORHOOD,LOCALITY,ADMINISTRATIVE2,ADMINISTRATIVE1,COUNTRY,ZIP,ADDRESS};
     }
 
-    public LocationHandler(Context con)
+    public PlaceHandler(Context con)
     {
         super(con,DATA_BASE_NAME,null,DATA_BASE_VERSION);
     }
@@ -67,14 +67,14 @@ public class LocationHandler extends SQLiteOpenHelper
     }
 
     /**
-     * Record this Location information in the sql database and return the loc_id of this location. If the location already exists in the database, the id of that location is returned.
-     * @param loc The location to be recorded in the database.
+     * Record this Place information in the sql database and return the loc_id of this Place. If the Place already exists in the database, the id of that Place is returned.
+     * @param loc The Place to be recorded in the database.
      *
      */
-    public Long appendLocation(Location loc)
+    public Long appendPlace(Place loc)
     {
         Cursor cur = dupSearch(loc.getLat(),loc.getLng());
-        //If the location already exists in the database.
+        //If the Place already exists in the database.
         if(cur.moveToNext())
             return cur.getLong(13);
         SQLiteDatabase db = getWritableDatabase();
@@ -97,11 +97,11 @@ public class LocationHandler extends SQLiteOpenHelper
     }
 
     /**
-     * Get an location from the current database by its latitude and longitude.If there presently exists no location qualified within the allowances, null is returned.
-     * @param lat The latitude of the location.
-     * @param lon The longitude of the location.
+     * Get an Place from the current database by its latitude and longitude.If there presently exists no Place qualified within the allowances, null is returned.
+     * @param lat The latitude of the Place.
+     * @param lon The longitude of the Place.
      */
-    public Location getLocation(double lat, double lon)
+    public Place getPlace(double lat, double lon)
     {
         Cursor cur = dupSearch(lat,lon);
         Object[] que = new Object[14];
@@ -113,16 +113,16 @@ public class LocationHandler extends SQLiteOpenHelper
             for(int i=2; i<13; i++)
                 que[i] = cur.getString(i);
             que[13] = cur.getLong(13);
-            return Location.processLocation(que);
+            return Place.processPlace(que);
         }
         return null;
     }
 
     /**
-     * Browse the database to check for any existent location identical to this location within the tolerance of 0.0001 in both latitude and longitude.
-     * @param lat The latitude of the location.
-     * @param lon The longitude of the location.
-     * @return A cursor that might contain the location queried.
+     * Browse the database to check for any existent Place identical to this Place within the tolerance of 0.0001 in both latitude and longitude.
+     * @param lat The latitude of the Place.
+     * @param lon The longitude of the Place.
+     * @return A cursor that might contain the Place queried.
      */
     public Cursor dupSearch(double lat, double lon)
     {
@@ -134,7 +134,7 @@ public class LocationHandler extends SQLiteOpenHelper
         return cur;
     }
 
-    public Location getLocationById(long id)
+    public Place getPlaceById(long id)
     {
         SQLiteDatabase db = getReadableDatabase();
         String where = String.format("%s = ?",LOC_ID);
@@ -150,7 +150,7 @@ public class LocationHandler extends SQLiteOpenHelper
             for(int i=2; i<13; i++)
                 que[i] = cur.getString(i);
             que[13] = cur.getLong(13);
-            return Location.processLocation(que);
+            return Place.processPlace(que);
         }
         return null;
     }

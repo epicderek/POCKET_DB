@@ -11,13 +11,13 @@ import javax.json.*;
 
 
 /**
- * A comprehensive representation of a geographical position in terms of a coordinate with the times accessed, people related, and events involved. Locations of different associated information but identical coordinates are stored as one location object. A search for a location object given the time, person, or event concerned may be conducted. Relevant information of this location such as the zip code and the region are derived.
+ * A comprehensive representation of a geographical position in terms of a coordinate with the times accessed, people related, and events involved. Places of different associated information but identical coordinates are stored as one Place object. A search for a Place object given the time, person, or event concerned may be conducted. Relevant information of this Place such as the zip code and the region are derived.
  * @author Derek
  *
  */
-public class Location {
+public class Place {
     /**
-     * The coordinate of the location.
+     * The coordinate of the Place.
      */
     private double lon, lat;
     /**
@@ -25,11 +25,11 @@ public class Location {
      */
     private String name;
     /**
-     * The type of this location, premise, coffee shop, ect. .
+     * The type of this Place, premise, coffee shop, ect. .
      */
     private String type;
     /**
-     * All the relevant information to this location in accord with the categories given by the reverse geocode api of google.
+     * All the relevant information to this Place in accord with the categories given by the reverse geocode api of google.
      */
     private String street_num, route, neighborhood, locality, administrative2, administrative1, country, zip;
     /**
@@ -37,7 +37,7 @@ public class Location {
      */
     private String formatted;
     /**
-     * The location id of this Location in the database.
+     * The Place id of this Place in the database.
      */
     private long loc_id;
     /*
@@ -62,13 +62,13 @@ public class Location {
     }
 
     /**
-     * Create a location of the given latitude and longitude along with an optional name.
+     * Create a Place of the given latitude and longitude along with an optional name.
      *
      * @param lat  The latitude.
      * @param lon  The longitude.
      * @param name An optional preferred name of this Place.
      */
-    public Location(double lat, double lon, String... name)
+    public Place(double lat, double lon, String... name)
     {
         this.lat = lat;
         this.lon = lon;
@@ -78,7 +78,7 @@ public class Location {
     /**
      * Reserved constructor for inputting from the database.
      */
-    private Location()
+    private Place()
     {
 
     }
@@ -155,10 +155,10 @@ public class Location {
     }
 
     /**
-     * A helper method that computes relevant geographic information based on the latitude and longitude given through the google map geocoding api. The results are recorded in the given map whose keys, to be filled by this method along with their proper values, are the enumerated types declared in PhyLocation.
-     * @param lati The latitude of the location.
-     * @param lon The longitude of the location.
-     * @return An object array whose first index is the formatted address, the second the types of this location, third and fourth the adjusted coordinate returned by the google map that comports with the facility located.
+     * A helper method that computes relevant geographic information based on the latitude and longitude given through the google map geocoding api. The results are recorded in the given map whose keys, to be filled by this method along with their proper values, are the enumerated types declared in PhyPlace.
+     * @param lati The latitude of the Place.
+     * @param lon The longitude of the Place.
+     * @return An object array whose first index is the formatted address, the second the types of this Place, third and fourth the adjusted coordinate returned by the google map that comports with the facility located.
      * @throws IOException
      */
     protected void interpretLoc(Double lati, Double lon) throws IOException
@@ -199,19 +199,19 @@ public class Location {
         formatted =  loc.getString("formatted_address");
         JsonObject geo = loc.getJsonObject("geometry");
         type = (String)loc.getJsonArray("types").toArray()[0];
-        JsonObject lal = geo.getJsonObject("location");
+        JsonObject lal = geo.getJsonObject("Place");
         lat = lal.getJsonNumber("lat").doubleValue() ;
         lon = lal.getJsonNumber("lng").doubleValue();
     }
 
     /**
-     * Process a location extracted from the database.
+     * Process a Place extracted from the database.
      * @param vals The values returned by the query. All information must be present. The sequence must be as it is stored in the database.
-     * @return The Location equivalent to the information extracted from the database.
+     * @return The Place equivalent to the information extracted from the database.
      */
-    public static Location processLocation(Object[] vals)
+    public static Place processPlace(Object[] vals)
     {
-        Location output = new Location();
+        Place output = new Place();
         output.lat = (double)vals[0];
         output.lon = (double)vals[1];
         output.name = (String)vals[2];

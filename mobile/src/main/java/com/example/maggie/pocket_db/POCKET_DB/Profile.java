@@ -22,7 +22,7 @@ public class Profile
     private boolean gen;
     private String dial;
     private String email;
-    private Location home;
+    private Place home;
 
     /**
      * Initialize a person with his/her first name and last name requisite.
@@ -65,7 +65,7 @@ public class Profile
         dial = cal;
     }
 
-    public void setLocation(Location loc)
+    public void setPlace(Place loc)
     {
         home = loc;
     }
@@ -110,7 +110,7 @@ public class Profile
         return gen;
     }
 
-    public Location getLoc()
+    public Place getLoc()
     {
         return home;
     }
@@ -123,11 +123,11 @@ public class Profile
     /**
      * Import and generate a Profile data from the given information of the profile in the order of the COLS.
      * @param que The textual information.
-     * @param home The location of this person's home.
+     * @param home The Place of this person's home.
      * @param id The contact_id of this person.
      * @return
      */
-    public static Profile processProfile(String[] que, Location home, long id)
+    public static Profile processProfile(String[] que, Place home, long id)
     {
         Profile output = new Profile();
         output.fname = que[0];

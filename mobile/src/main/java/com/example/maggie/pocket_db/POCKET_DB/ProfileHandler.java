@@ -25,7 +25,7 @@ public class ProfileHandler extends SQLiteOpenHelper
         DIAL = "phone number";
         EMAIL = "email address";
         GENDER = "gender";
-        LOC_ID = "location id";
+        LOC_ID = "Place id";
     }
 
     public static final String[] COLS = {FNAME,LNAME,MNAME,DIAL,EMAIL,GENDER,LOC_ID,PRO_ID};
@@ -37,7 +37,7 @@ public class ProfileHandler extends SQLiteOpenHelper
 
     public void onCreate(SQLiteDatabase db)
     {
-        String CREATE_TABLE = String.format("create table %s ( %s varchar(10), %s varchar(10), %s varchar(10), %s varchar(15), %s varchar(40), %s enum(\"Female\",\"male\"), %s long unsigned, %s long unsigned, constraint pk_pro primary key (%s), constraint fk_loc foreign key (%s) references %s (%s));",TABLE_NAME,FNAME,LNAME,MNAME,DIAL,EMAIL,GENDER,LOC_ID,PRO_ID,PRO_ID,LOC_ID, LocationHandler.TABLE_NAME,LocationHandler.LOC_ID);
+        String CREATE_TABLE = String.format("create table %s ( %s varchar(10), %s varchar(10), %s varchar(10), %s varchar(15), %s varchar(40), %s enum(\"Female\",\"male\"), %s long unsigned, %s long unsigned, constraint pk_pro primary key (%s), constraint fk_loc foreign key (%s) references %s (%s));",TABLE_NAME,FNAME,LNAME,MNAME,DIAL,EMAIL,GENDER,LOC_ID,PRO_ID,PRO_ID,LOC_ID, PlaceHandler.TABLE_NAME,PlaceHandler.LOC_ID);
         db.execSQL(CREATE_TABLE);
     }
 
@@ -70,7 +70,7 @@ public class ProfileHandler extends SQLiteOpenHelper
      * Retrieve a person by the relevant information given in the array, whose sequence is given by the COLS in the Place Class.
      * @param quals The relevant information of this person organized in the order of the COLS of Place.
      */
-    public List<Profile> getPerson(String[] quals, LocationHandler loch)
+    public List<Profile> getPerson(String[] quals, PlaceHandler loch)
     {
         SQLiteDatabase db = getReadableDatabase();
         String where = String.format("%s = ? and %s = ? and %s = ? and %s = ? and %s = ? and %s = ?",FNAME,LNAME,MNAME,DIAL,EMAIL,GENDER);
@@ -81,7 +81,7 @@ public class ProfileHandler extends SQLiteOpenHelper
         {
             for(int i=0; i<6; i++)
                 que[i] = cur.getString(i);
-            pros.add(Profile.processProfile(que,loch.getLocationById(cur.getLong(6)),cur.getLong(7)));
+            pros.add(Profile.processProfile(que,loch.getPlaceById(cur.getLong(6)),cur.getLong(7)));
         }
         return pros;
     }
@@ -91,7 +91,7 @@ public class ProfileHandler extends SQLiteOpenHelper
      * @param id The id of the person to be retrieved.
      * @return The profile of this person correlated with this contact_id. Null if no profile of such person with such id exists.
      */
-    public Profile getPersonById(long id, LocationHandler loch)
+    public Profile getPersonById(long id, PlaceHandler loch)
     {
         Profile output = new Profile();
         SQLiteDatabase db = getReadableDatabase();
@@ -103,7 +103,7 @@ public class ProfileHandler extends SQLiteOpenHelper
         {
             for(int i=0; i<6; i++)
                 que[i] = cur.getString(i);
-           return  Profile.processProfile(que,loch.getLocationById(cur.getLong(6)),cur.getLong(7));
+           return  Profile.processProfile(que,loch.getPlaceById(cur.getLong(6)),cur.getLong(7));
         }
         return null;
     }
