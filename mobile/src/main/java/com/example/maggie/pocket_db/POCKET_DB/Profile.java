@@ -9,7 +9,7 @@ public class Profile
     /**
      * The id assigned to this person.
      */
-    protected int contact_id;
+    protected long contact_id;
     /**
      * Counter of given ids.
      */
@@ -20,7 +20,7 @@ public class Profile
     private String mname;
     private String name;
     private boolean gen;
-    private long dial;
+    private String dial;
     private String email;
     private Location home;
 
@@ -39,6 +39,11 @@ public class Profile
         name = builder.append(fname).append(lname).append(mn.length==0?"":mn[0]).toString();
     }
 
+    protected Profile()
+    {
+
+    }
+
     /**
      * Set the gender of this person.
      * @param gen The gender of the person. A True corresponds to a woman; a false corresponds to a man.
@@ -55,7 +60,7 @@ public class Profile
         name = builder.append(fname).append(lname).append(mname).toString();
     }
 
-    public void setDial(long cal)
+    public void setDial(String cal)
     {
         dial = cal;
     }
@@ -90,7 +95,7 @@ public class Profile
         return mname;
     }
 
-    public long getDial()
+    public String getDial()
     {
         return dial;
     }
@@ -113,6 +118,28 @@ public class Profile
     protected long getId()
     {
         return contact_id;
+    }
+
+    /**
+     * Import and generate a Profile data from the given information of the profile in the order of the COLS.
+     * @param que The textual information.
+     * @param home The location of this person's home.
+     * @param id The contact_id of this person.
+     * @return
+     */
+    public static Profile processProfile(String[] que, Location home, long id)
+    {
+        Profile output = new Profile();
+        output.fname = que[0];
+        output.lname = que[1];
+        output.mname = que[2];
+        output.name = que[3];
+        output.gen = que[4].equals("Female")?true:false;
+        output.dial = que[5];
+        output.email = que[6];
+        output.home = home;
+        output.contact_id = id;
+        return output;
     }
 
 

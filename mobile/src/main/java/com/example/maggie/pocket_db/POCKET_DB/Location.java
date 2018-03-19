@@ -66,9 +66,10 @@ public class Location {
      *
      * @param lat  The latitude.
      * @param lon  The longitude.
-     * @param name
+     * @param name An optional preferred name of this Place.
      */
-    public Location(double lat, double lon, String... name) {
+    public Location(double lat, double lon, String... name)
+    {
         this.lat = lat;
         this.lon = lon;
         this.name = name[0];
@@ -77,7 +78,8 @@ public class Location {
     /**
      * Reserved constructor for inputting from the database.
      */
-    private Location() {
+    private Location()
+    {
 
     }
 
@@ -223,6 +225,7 @@ public class Location {
         output.country = (String)vals[10];
         output.zip = (String)vals[11];
         output.formatted = (String) vals[12];
+        output.loc_id = (long)vals[13];
         return output;
     }
 

@@ -104,7 +104,7 @@ public class LocationHandler extends SQLiteOpenHelper
     public Location getLocation(double lat, double lon)
     {
         Cursor cur = dupSearch(lat,lon);
-        Object[] que = new Object[13];
+        Object[] que = new Object[14];
         if(cur.moveToNext()) {
            //The longitude and latitude.
             que[0] = cur.getDouble(0);
@@ -112,6 +112,7 @@ public class LocationHandler extends SQLiteOpenHelper
             //The rest of the information in string format.
             for(int i=2; i<13; i++)
                 que[i] = cur.getString(i);
+            que[13] = cur.getLong(13);
             return Location.processLocation(que);
         }
         return null;
@@ -133,7 +134,25 @@ public class LocationHandler extends SQLiteOpenHelper
         return cur;
     }
 
-
-
+    public Location getLocationById(long id)
+    {
+        SQLiteDatabase db = getReadableDatabase();
+        String where = String.format("%s = ?",LOC_ID);
+        String[] cons = {String.valueOf(id)};
+        Cursor cur = db.query(TABLE_NAME,null,where,cons,null,null,null);
+        Object[] que = new Object[14];
+        if(cur.moveToNext())
+        {
+            //The longitude and latitude.
+            que[0] = cur.getDouble(0);
+            que[1] = cur.getDouble(1);
+            //The rest of the information in string format.
+            for(int i=2; i<13; i++)
+                que[i] = cur.getString(i);
+            que[13] = cur.getLong(13);
+            return Location.processLocation(que);
+        }
+        return null;
+    }
 
 }
