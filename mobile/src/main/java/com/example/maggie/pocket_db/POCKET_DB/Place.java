@@ -54,7 +54,8 @@ public class Place {
      */
     public static int keyCount;
 
-    static {
+    static
+    {
         keys = new String[]{"AIzaSyAe67qjsHOQomCNyIIyi_UKm5uqNvTGcvA", "AIzaSyDzqYwvSvnHhBAPf0ZisEPCuZWZv2ldry4", "AIzaSyDG4Gjp_mW0T25VA17Jmk5pYJRJUFvnbUA", "AIzaSyDnPcdlEZyqR6Cr2ite9aAvoTMDzDhty_E", "AIzaSyDnfk0csfpKC1G12EUh4BzyuXOoa_B0fKE", "AIzaSyCZ-htBGcdRL3edgKX3XIHbvcH52Z-ITIk", "AIzaSyCmhv5_zalf68jlqsdeZAbwJxzsbCy7U4k", "AIzaSyC7_s8YWKxnaKqswFBp7riTccHxNI3EBoA", "AIzaSyC-a4AUdyCipXHFev5hopOUz_Mo0QVg2Tk"};
         keyCount = 0;
         uFirst = "https://maps.googleapis.com/maps/api/geocode/json?latlng=";
@@ -73,6 +74,21 @@ public class Place {
         this.lat = lat;
         this.lon = lon;
         this.name = name[0];
+        try
+        {
+            interpretLoc(lat,lon);
+        }catch(IOException ex)
+        {
+            if(keyCount<keys.length)
+                keyCount++;
+            try {
+                interpretLoc(lat,lon);
+            }
+            catch(Exception ex2)
+            {
+                throw new RuntimeException(ex2);
+            }
+        }
     }
 
     /**
