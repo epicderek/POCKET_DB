@@ -134,6 +134,11 @@ public class PlaceHandler extends SQLiteOpenHelper
         return cur;
     }
 
+    /**
+     * Retrieve a Place from the database by the locational id.
+     * @param id The id of the location to be retrieved.
+     * @return The place correlated with this locational id. Null if no profile of such person with such id exists.
+     */
     public Place getPlaceById(long id)
     {
         SQLiteDatabase db = getReadableDatabase();
