@@ -18,32 +18,32 @@ public class DBHandler extends SQLiteOpenHelper
     private static final String[] TABLE_NAME = {"place","profile","event"};
 
     //Table information regarding Place.
-    private static final String LAT = "lat";
-    private static final String LNG = "lng";
-    private static final String NAME = "name";
-    private static final String TYPE = "Place type";
+    protected static final String LAT = "lat";
+    protected static final String LNG = "lng";
+    protected static final String NAME = "name";
+    protected static final String TYPE = "Place type";
 
     /**
      * All the relevant information to this Place in accord with the categories given by the reverse geocode api of google.
      */
-    private static final String STREET_NUM,ROUTE,NEIGHBORHOOD,LOCALITY,ADMINISTRATIVE2,ADMINISTRATIVE1,COUNTRY,ZIP;
+    protected static final String STREET_NUM,ROUTE,NEIGHBORHOOD,LOCALITY,ADMINISTRATIVE2,ADMINISTRATIVE1,COUNTRY,ZIP;
     /**
      * The formatted address of this Place.
      */
-    private static final String ADDRESS = "address";
+    protected static final String ADDRESS = "address";
     /**
      * A unique id to each Place stored in the database.
      */
-    private static final String LOC_ID = "loc_id";
+    protected static final String LOC_ID = "loc_id";
     /**
      * All the columns of this table.
      */
-    private static final String[] COLS_PLACE;
+    protected static final String[] COLS_PLACE;
 
     //Table information regarding Profile.
-    private static final String PRO_ID = "profile id";
-    private static final String FNAME,LNAME,MNAME,DIAL,EMAIL,GENDER;
-    private static final String[] COLS_PROFILE;
+    protected static final String PRO_ID = "profile id";
+    protected static final String FNAME,LNAME,MNAME,DIAL,EMAIL,GENDER;
+    protected static final String[] COLS_PROFILE;
 
     //Auxiliary table of the miscellaneous names associated with a Place.
     private static final String AUX_NAME_TABLE_NAME = "auxiliary_place_names";
@@ -164,7 +164,6 @@ public class DBHandler extends SQLiteOpenHelper
         db.close();
     }
 
-
     /**
      * Browse the database to check for any existent Place identical to this Place within the tolerance of 0.0001 in both latitude and longitude.
      * @param lat The latitude of the Place.
@@ -180,6 +179,18 @@ public class DBHandler extends SQLiteOpenHelper
         Cursor cur = db.query(TABLE_NAME[0],null,where,allow,null,null,String.format("LAT-%s+LNG-%s",lat,lon));
         return cur;
     }
+
+    /**
+     * A convenient method of getting the Id of a 
+     * @param lat
+     * @param lon
+     * @return
+     */
+//    public long getLocId(double lat, double lon)
+//    {
+//
+//    }
+
 
     /**
      * Retrieve a Place from the database by the locational id.
@@ -249,5 +260,11 @@ public class DBHandler extends SQLiteOpenHelper
         }
         return null;
     }
+
+    public void retrieve()
+    {
+
+    }
+
 }
 

@@ -1,7 +1,8 @@
 package com.example.maggie.pocket_db.POCKET_DB;
+import static com.example.maggie.pocket_db.POCKET_DB.DBHandler.*;
 import java.io.*;
 import java.net.URL;
-
+import java.util.*;
 import javax.json.*;
 
 
@@ -15,7 +16,8 @@ import javax.json.*;
  * @author Derek
  *
  */
-public class Place {
+public class Place extends DBEntity
+{
     /**
      * The coordinate of the Place.
      */
@@ -92,12 +94,52 @@ public class Place {
     }
 
     /**
+     * A preferred way of reconstruction of a Place object retrieved from the database. The inherited map of fields and values would be cloned from this given map.
+     * @param info The keys as the fields of this Place, the values as the values.
+     */
+    public Place(Map<String,Object> info)
+    {
+        lat = (Double)info.get(LAT);
+        lon = (Double)info.get(LNG);
+        name = (String)info.get(NAME);
+        type = (String)info.get(TYPE);
+        street_num = (String)info.get(STREET_NUM);
+        route = (String)info.get(ROUTE);
+        neighborhood = (String)info.get(NEIGHBORHOOD);
+        locality = (String)info.get(LOCALITY);
+        administrative2 = (String)info.get(ADMINISTRATIVE2);
+        administrative1 = (String)info.get(ADMINISTRATIVE1);
+        country = (String)info.get(COUNTRY);
+        zip = (String)info.get(ZIP);
+        formatted = (String)info.get(ADDRESS);
+        loc_id = (long)info.get(LOC_ID);
+        this.info.putAll(info);
+    }
+    /**
      * Reserved constructor for inputting from the database.
      */
     private Place()
     {
 
     }
+
+    protected void fillMap()
+    {
+        info.put(LAT,lat);
+        info.put(LNG,lon);
+        info.put(NAME,name);
+        info.put(TYPE,type);
+        info.put(STREET_NUM,street_num);
+        info.put(ROUTE,route);
+        info.put(NEIGHBORHOOD,neighborhood);
+        info.put(LOCALITY,locality);
+        info.put(ADMINISTRATIVE2,administrative2);
+        info.put(ADMINISTRATIVE1,administrative1);
+        info.put(COUNTRY,country);
+        info.put(ZIP,zip);
+        info.put(ADDRESS,formatted);
+    }
+
 
     protected void setId(long id)
     {
