@@ -11,7 +11,7 @@ import javax.json.*;
 
 
 /**
- * A comprehensive representation of a geographical position in terms of a coordinate with the times accessed, people related, and events involved. Places of different associated information but identical coordinates are stored as one Place object. A search for a Place object given the time, person, or event concerned may be conducted. Relevant information of this Place such as the zip code and the region are derived.
+ *  Relevant information of this Place such as the zip code and the region are derived.
  * @author Derek
  *
  */
